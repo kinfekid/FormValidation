@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        form {
+            width: 300px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input.invalid {
+            border-color: red;
+        }
+
+        input.valid {
+            border-color: green;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 12px;
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+    <title>Interactive Form</title>
+</head>
+<body>
+
+    <form id="myForm">
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" name="name" placeholder="Enter your name">
+
+        <label for="email">Email Address:</label>
+        <input type="text" id="email" name="email" placeholder="Enter your email">
+
+        <label for="phoneNumber">Phone Number:</label>
+        <input type="text" id="phoneNumber" name="phoneNumber" placeholder="Enter phone number">
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password">
+
+        <div class="error-message" id="nameError"></div>
+        <div class="error-message" id="emailError"></div>
+        <div class="error-message" id="phoneNumberError"></div>
+        <div class="error-message" id="passwordError"></div>
+
+        <button type="submit" id="submitButton" disabled>Submit</button>
+    </form>
+
+    <script>
+        document.getElementById('myForm').addEventListener('input', function (event) {
+            validateForm();
+        });
+
+        document.getElementById('myForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            alert('Form submitted successfully!');
+        });
+
+        function validateForm() {
+            var nameInput = document.getElementById('name');
+            var emailInput = document.getElementById('email');
+            var phoneNumberInput = document.getElementById('phoneNumber');
+            var passwordInput = document.getElementById('password');
+
+            var nameError = document.getElementById('nameError');
+            var emailError = document.getElementById('emailError');
+            var phoneNumberError = document.getElementById('phoneNumberError');
+            var passwordError = document.getElementById('passwordError');
+
+            var submitButton = document.getElementById('submitButton');
+
+            // Name Validation
+            var nameRegex = /^[a-zA-Z\s]+$/;
+            if (nameRegex.test(nameInput.value)) {
+                nameInput.classList.remove('invalid');
+                nameInput.classList.add('valid');
+                nameError.textContent = '';
+            } else {
+                nameInput.classList.remove('valid');
+                nameInput.classList.add('invalid');
+                nameError.textContent = 'Invalid name. Please enter alphabets only.';
+            }
+
+            // Email Validation
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (emailRegex.test(emailInput.value)) {
+                emailInput.classList.remove('invalid');
+                emailInput.classList.add('valid');
+                emailError.textContent = '';
+            } else {
+                emailInput.classList.remove('valid');
+                emailInput.classList.add('invalid');
+                emailError.textContent = 'Invalid email address.';
+            }
+
+            // Phone Number Validation
+            var phoneNumberRegex = /^\d{10}$/;
+            if (phoneNumberRegex.test(phoneNumberInput.value)) {
+                phoneNumberInput.classList.remove('invalid');
+                phoneNumberInput.classList.add('valid');
+                phoneNumberError.textContent = '';
+            } else {
+                phoneNumberInput.classList.remove('valid');
+                phoneNumberInput.classList.add('invalid');
+                phoneNumberError.textContent = 'Invalid phone number. Please enter a valid 10-digit number.';
+            }
+
+            // Password Validation
+            var passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+            if (passwordRegex.test(passwordInput.value)) {
+                passwordInput.classList.remove('invalid');
+                passwordInput.classList.add('valid');
+                passwordError.textContent = '';
+            } else {
+                passwordInput.classList.remove('valid');
+                passwordInput.classList.add('invalid');
+                passwordError.textContent = 'Invalid password. Minimum 8 characters, at least one letter, and one number.';
+            }
+
+            // Enable/disable submit button based on validation
+            if (
+                nameInput.classList.contains('valid') &&
+                emailInput.classList.contains('valid') &&
+                phoneNumberInput.classList.contains('valid') &&
+                passwordInput.classList.contains('valid')
+            ) {
+                submitButton.disabled = false;
+            } else {
+                submitButton.disabled = true;
+            }
+        }
+    </script>
+
+</body>
+</html>
